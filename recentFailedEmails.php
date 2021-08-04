@@ -1,5 +1,6 @@
 <?php
-// version 1.2 July 30 2021
+// https://whmcs.community/topic/296515-hook-to-show-recent-imported-ticket-failures-on-support-tickets-page/
+// version 1.3
 
 use Illuminate\Database\Capsule\Manager as Capsule; 
 
@@ -7,7 +8,7 @@ add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 	
 	$output = "<div id='recently-blocked'><h2>Recently Blocked Messages   <small><i class='far fa-eye'></i> <a href='systemmailimportlog.php' target='_blank'>SEE ALL</a></small></h2>
 		<table id='sortabletbl1' class='datatable' style='width:100%'>
-		<tr><th>Date</th><th>Name/Email</th><th>Subject</th><th>Status</th><th></th></tr>";
+		<tr><th>Date</th><th>Name/Email</th><th>Subject (click to view)</th><th>Status</th></tr>";
 	
 	foreach (Capsule::table('tblticketmaillog')->where('status', 'like', 'Blocked%')->where('email', 'not like', 'mailer-daemon%')->orderBy('id', 'desc')->limit(10)->get() as $msg){
 
@@ -27,9 +28,7 @@ add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 
 		$output .= "
 		<tr>
-			<td>$date_interval</td><td>$name</td><td>{$msg->subject}</td><td>{$msg->status}</td>
-			<td><button class='btn' style='padding:1px 5px;' onclick=\"window.open('/" . $GLOBALS['customadminpath'] . "/systemmailimportlog.php?display=true&id={$msg->id}','','width=650,height=400,scrollbars=yes');return false\">VIEW</button></td>
-		</tr>";
+			<td>$date_interval</td><td>$name</td><td><a href='#' onclick=\"window.open('/" . $GLOBALS['customadminpath'] . "/systemmailimportlog.php?display=true&id={$msg->id}','','width=650,height=400,scrollbars=yes');return false\">{$msg->subject}</a></td><td>{$msg->status}</td></tr>";
 		
 	}
 	
