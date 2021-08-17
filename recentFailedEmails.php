@@ -22,7 +22,12 @@ add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 		$interval = $today->diff($msg_date);
 		$date_interval = abs($interval->format('%R%a'));
 		
-		if ($date_interval == 0) $date_interval = 'Today';
+		if ($date_interval == 0 && $interval->h < date('H')) {
+		    $date_interval = 'Today';
+		}
+		else if ($date_interval == 0 && $interval->h >= date('H')){
+		    $date_interval = 'Yesterday';
+		}
 		else if ($date_interval == 1) $date_interval = 'Yesterday';
 		else $date_interval .= ' days ago';
 
