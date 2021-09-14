@@ -10,7 +10,7 @@ add_hook('AdminSupportTicketPagePreTickets', 1, function($vars) {
 		<table id='sortabletbl1' class='datatable' style='width:100%'>
 		<tr><th>Date</th><th>Name/Email</th><th>Subject (click to view)</th><th>Status</th></tr>";
 	
-	foreach (Capsule::table('tblticketmaillog')->where('status', 'like', 'Blocked%')->where('email', 'not like', 'mailer-daemon%')->orderBy('id', 'desc')->limit(10)->get() as $msg){
+	foreach (Capsule::table('tblticketmaillog')->where('status', 'not like', '%Successfully%')->where('email', 'not like', 'mailer-daemon%')->orderBy('id', 'desc')->limit(10)->get() as $msg){
 
 		/* Name */
 		if ($msg->name === $msg->email) $name = $msg->name;
