@@ -1,6 +1,6 @@
 <?php
 // https://whmcs.community/topic/296515-hook-to-show-recent-imported-ticket-failures-on-support-tickets-page/
-// version 1.3
+// version 1.4
 
 use Illuminate\Database\Capsule\Manager as Capsule; 
 
